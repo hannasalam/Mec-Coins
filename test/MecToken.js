@@ -29,7 +29,7 @@ contract('MecToken',function(accounts){
             assert.equal(adminBalance.toNumber(),1000000,'it allocates to the initial supply to the admin');
         });
         });
-    });
+
 
     it('transfers ownership',function(){
         return MecToken.deployed().then(instance=>{
@@ -37,7 +37,7 @@ contract('MecToken',function(accounts){
             return tokenInstance.transfer.call(accounts[1], 9999999999);
     }).then(assert.fail).catch(function(error) {
         assert(error.message.indexOf('revert') >= 0, 'error message must contain revert');
-      return tokenInstance.transfer.call(accounts[1], 250000, { from: accounts[0] });
+      return tokenInstance.transfer(accounts[1], 250000, { from: accounts[0] });
     }).then(receipt=>{
         return tokenInstance.balanceOf(accounts[1]);
     }).then(balance=>
@@ -49,4 +49,6 @@ contract('MecToken',function(accounts){
                 assert.equal(balance.toNumber(),750000,'deducts the amount from the sending account')
             });
 });
+
+    });
 
